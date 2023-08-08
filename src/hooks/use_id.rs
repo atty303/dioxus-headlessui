@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 
 static ID: AtomicUsize = AtomicUsize::new(0);
 
-fn use_id(cx: &ScopeState) -> &UseState<usize> {
+pub fn use_id(cx: &ScopeState) -> &UseState<usize> {
     use_state(cx, || ID.fetch_add(1, Ordering::SeqCst))
 }
 
@@ -14,7 +14,7 @@ mod tests {
 
     #[test]
     fn test_use_id() {
-        let mut dom = VirtualDom::new(|_| None);
+        let dom = VirtualDom::new(|_| None);
         let cx = dom.base_scope();
 
         let id1 = use_id(cx);
