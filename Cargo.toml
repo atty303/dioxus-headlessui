@@ -6,3 +6,7 @@ edition = "2021"
 [dependencies]
 dioxus = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "458c13fb7424be424271b4ee0b6d7a7e5d95bd0b", features = ["web"] }
 web-sys = {  version = "0.3", features = ["HtmlDialogElement"] }
+tracing = "0.1"
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"

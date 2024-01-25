@@ -3,7 +3,7 @@ use dioxus::prelude::*;
 use dioxus::web::WebEventExt;
 use web_sys::wasm_bindgen::JsCast;
 
-use crate::RenderFn;
+use crate::components::RenderFn;
 
 struct DialogState {
     open: Signal<bool>,
@@ -22,41 +22,45 @@ pub fn Dialog(
     /// Whether the Dialog is open or not.
     open: bool,
     /// Called when the Dialog is dismissed (via outside click of the DialogPanel or by pressing the Escape key). Typically used to close the dialog by setting open to false.
-    on_close: EventHandler<()>,
+    on_close: Option<EventHandler<()>>,
     render: Option<RenderFn<DialogRenderArgs>>,
     children: Element,
 ) -> Element {
-    let state = use_signal(|| DialogState {
-        open: Signal::new(open),
-        dialog: Signal::new(None),
-    });
-    let _ = use_context_provider(|| state);
+    // let state = use_signal(|| DialogState {
+    //     open: Signal::new(open),
+    //     dialog: Signal::new(None),
+    // });
+    // let _ = use_context_provider(|| state);
     // let dialog = use_signal(|| None);
 
-    use_effect(move || {
-        if let Some(dialog) = state.read().dialog.read().as_ref() {
-            if *state.read().open.read() {
-                if !dialog.has_attribute("open") {
-                    dialog.show_modal().unwrap();
-                }
-            } else {
-                if dialog.has_attribute("open") {
-                    dialog.close();
-                }
-            }
-        }
-    });
+    // use_effect(move || {
+    //     if let Some(dialog) = state.read().dialog.read().as_ref() {
+    //         if *state.read().open.read() {
+    //             if !dialog.has_attribute("open") {
+    //                 dialog.show_modal().unwrap();
+    //             }
+    //         } else {
+    //             if dialog.has_attribute("open") {
+    //                 dialog.close();
+    //             }
+    //         }
+    //     }
+    // });
 
     let attrs = vec![
         Attribute::new(
             "onmounted",
-            AttributeValue::listener(move |e: MountedEvent| {
-                let el = e
-                    .web_event()
-                    .dyn_ref::<web_sys::HtmlDialogElement>()
-                    .expect("expecting HtmlDialogElement");
-                *state.read().dialog.write() = Some(el.clone());
-            }),
+            AttributeValue::Listener(EventHandler::new(move |event: Event<dyn core::any::Any>| {
+                tracing::info!("data: hoge");
+                let data = event.data.downcast::<MountedData>().unwrap();
+            })),
+            // AttributeValue::listener::<MountedData>(move |e| {
+                // let el = e
+                //     .web_event()
+                //     .dyn_ref::<web_sys::HtmlDialogElement>()
+                //     .expect("expecting HtmlDialogElement");
+                // *state.read().dialog.write() = Some(el.clone());
+            // }),
             None,
             false,
         ),
@@ -92,7 +96,7 @@ pub struct DialogPanelRenderArgs {
 /// This indicates the panel of your actual Dialog. Clicking outside of this component will trigger the onClose of the Dialog component.
 #[component]
 pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: Element) -> Element {
-    let _state = use_context::<Signal<DialogState>>();
+    // let _state = use_context::<Signal<DialogState>>();
 
     let attrs = Vec::new();
 
@@ -108,32 +112,38 @@ pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: El
     }
 }
 
-
 #[cfg(test)]
-#[test]
-fn test() {
-    let a = "";
-    let b = false;
-    rsx! {
-        div {}
-    //     Dialog {
-    //         id: a,
-    //         open: b,
-    //         on_close: |a| {},
-    //     }
-    };
+mod test {
+    use dioxus::dioxus_core::NoOpMutations;
+    use wasm_bindgen_test::wasm_bindgen_test;
+    use web_sys::window;
+    use super::*;
 
-    // let mut dom = VirtualDom::new(|cx| {
-    //     let a = rsx! {
-    //         Dialog {
-    //             as_element: as_element!("my_element"),
-    //             id: "hogehoge",
-    //             open: true,
-    //             ""
-    //         }
-    //     };
-    //     render! { a }
-    // });
-    // let a = dom.rebuild();
-    // println!("{:?}", a.templates);
+    wasm_bindgen_test::wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn test_dialog() {
+        fn app() -> Element {
+            rsx! {
+                Dialog {
+                    open: true,
+                    children: rsx! {
+                        div {
+                            "test"
+                        }
+                    },
+                }
+            }
+        }
+
+        window()
+            .unwrap()
+            .document()
+            .unwrap()
+            .body()
+            .unwrap()
+            .set_inner_html(&"<div id='main'></div>".to_string());
+
+        launch(app);
+    }
 }

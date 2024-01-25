@@ -3,7 +3,7 @@ use std::rc::Rc;
 
 use dioxus::prelude::*;
 
-mod dialog;
+pub mod dialog;
 
 pub struct RenderFn<T = ()> {
     pub(super) callback: Rc<RefCell<Option<RenderCallback<T>>>>,
