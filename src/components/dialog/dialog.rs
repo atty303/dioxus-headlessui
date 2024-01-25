@@ -1,3 +1,4 @@
+use dioxus::core::Attribute;
 use dioxus::prelude::*;
 
 use crate::components::dialog::use_open_closed::{State, use_open_closed};
@@ -82,25 +83,27 @@ fn test() {
     let a = "";
     let b = false;
     rsx! {
-        Dialog {
-            id: a,
-            open: b,
-        }
+        div {}
+    //     Dialog {
+    //         id: a,
+    //         open: b,
+    //         on_close: |a| {},
+    //     }
     };
 
-    let mut dom = VirtualDom::new(|cx| {
-        let a = rsx! {
-            Dialog {
-                as_element: as_element!("my_element"),
-                id: "hogehoge",
-                open: true,
-                ""
-            }
-        };
-        render! { a }
-    });
-    let a = dom.rebuild();
-    println!("{:?}", a.templates);
+    // let mut dom = VirtualDom::new(|cx| {
+    //     let a = rsx! {
+    //         Dialog {
+    //             as_element: as_element!("my_element"),
+    //             id: "hogehoge",
+    //             open: true,
+    //             ""
+    //         }
+    //     };
+    //     render! { a }
+    // });
+    // let a = dom.rebuild();
+    // println!("{:?}", a.templates);
 }
 
 // mod dioxus_elements {
