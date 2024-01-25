@@ -1,81 +1,116 @@
-use dioxus::core::Attribute;
 use dioxus::prelude::*;
 
-use crate::components::dialog::use_open_closed::{State, use_open_closed};
-use crate::hooks::use_id::use_id;
+use dioxus::dioxus_core::AttributeValue;
 
-const DEFAULT_DIALOG_TAG: &str = "div";
+use dioxus::prelude::*;
+use dioxus::web::WebEventExt;
+use web_sys::wasm_bindgen::JsCast;
+use crate::RenderFn;
 
-enum DialogState {
-    Open,
-    Closed,
+
+struct DialogState {
+    open: Signal<bool>,
+    dialog: Signal<Option<web_sys::HtmlDialogElement>>,
 }
 
-#[derive(Props)]
-pub struct DialogProps<'a> {
-    pub as_element: Option<Template<'static>>,
-    pub id: Option<&'a str>,
-    pub open: Option<bool>,
-    pub on_close: Option<EventHandler<'a, bool>>,
-    pub children: Element<'a>,
+pub struct DialogRenderArgs {
+    pub attrs: Vec<Attribute>,
+    pub children: Element,
+    pub open: bool,
 }
 
-#[allow(non_snake_case)]
-pub fn Dialog<'a>(cx: Scope<'a, DialogProps<'a>>) -> Element<'a> {
-    let internal_id = use_id(cx);
-    let id = cx.props.id.unwrap_or_else(|| cx.raw_text(format_args!("headlessui-dialog-{}", internal_id.get())));
+/// The main Dialog component.
+#[component]
+pub fn Dialog(
+    /// Whether the Dialog is open or not.
+    open: bool,
+    /// Called when the Dialog is dismissed (via outside click of the DialogPanel or by pressing the Escape key). Typically used to close the dialog by setting open to false.
+    on_close: EventHandler<()>,
+    render: Option<RenderFn<DialogRenderArgs>>,
+    children: Element,
+) -> Element {
+    let state = use_signal(|| DialogState {
+        open: Signal::new(open),
+        dialog: Signal::new(None),
+    });
+    let _ = use_context_provider(|| state);
+    // let dialog = use_signal(|| None);
 
-    let use_open_closed_state = use_open_closed(cx);
-    let open = cx.props.open.unwrap_or(use_open_closed_state.is_some_and(|s| s == &State::Open));
-
-    let internal_dialog_ref = use_ref(cx, || None::<VNode>);
-
-    // Validations
-    // let has_open = cx.props.open.is_some() || use_open_closed_state.is_some();
-    // let has_on_close = cx.props.on_close.is_some();
-    // if !has_open && !has_on_close {
-    //     panic!("You have to provide an `open` and an `on_close` prop to the `Dialog` component.")
-    // }
-    // if !has_open {
-    //     panic!("You provided an `on_close` prop to the `Dialog` component but forgot an `open` prop.")
-    // }
-    // if !has_on_close {
-    //     panic!("You provided an `open` prop to the `Dialog`, but forgot an `on_close` prop.")
-    // }
-
-    let dialog_state = if open { DialogState::Open } else { DialogState::Closed };
-
-    let a = LazyNodes::new(move |__cx: &ScopeState| -> VNode {
-        VNode {
-            parent: None,
-            key: None,
-            template: std::cell::Cell::new(cx.props.as_element.unwrap()),
-            root_ids: Default::default(),
-            dynamic_nodes: __cx.bump().alloc([__cx.make_node(
-                rsx! { span { } }
-            )]),
-            dynamic_attrs: __cx.bump().alloc([]),
+    use_effect(move || {
+        if let Some(dialog) = state.read().dialog.read().as_ref() {
+            if *state.read().open.read() {
+                if !dialog.has_attribute("open") {
+                    dialog.show_modal().unwrap();
+                }
+            } else {
+                if dialog.has_attribute("open") {
+                    dialog.close();
+                }
+            }
         }
     });
 
-    render! { a }
+    let mut attrs = vec![
+        Attribute::new(
+            "onmounted",
+            AttributeValue::listener(move |e: MountedEvent| {
+                let el = e
+                    .web_event()
+                    .dyn_ref::<web_sys::HtmlDialogElement>()
+                    .expect("expecting HtmlDialogElement");
+                *state.read().dialog.write() = Some(el.clone());
+            }),
+            None,
+            false,
+        ),
+        Attribute::new(
+            "role",
+            AttributeValue::Text("dialog".to_string()),
+            None,
+            false,
+        ),
+    ];
+
+    if let Some(render) = render {
+        render.call(DialogRenderArgs {
+            attrs,
+            children,
+            open,
+        })
+    } else {
+        rsx! {
+            div {
+                ..attrs,
+                {children}
+            }
+        }
+    }
 }
 
-macro_rules! as_element {
-    ($tag: literal) => {
-        Template {
-            name: concat!(file!(), ":", line!(), ":", column!(), ":", "0"),
-            roots: &[TemplateNode::Element {
-                tag: $tag,
-                namespace: None,
-                attrs: &[],
-                children: &[TemplateNode::Dynamic { id: 0usize }],
-            }],
-            node_paths: &[&[0u8, 0u8]],
-            attr_paths: &[],
-        }
-    };
+pub struct DialogPanelRenderArgs {
+    pub attrs: Vec<Attribute>,
+    pub children: Element,
 }
+
+/// This indicates the panel of your actual Dialog. Clicking outside of this component will trigger the onClose of the Dialog component.
+#[component]
+pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: Element) -> Element {
+    let state = use_context::<Signal<DialogState>>();
+
+    let mut attrs = Vec::new();
+
+    if let Some(render) = render {
+        render.call(DialogPanelRenderArgs { attrs, children })
+    } else {
+        rsx! {
+            div {
+                ..attrs,
+                {children}
+            }
+        }
+    }
+}
+
 
 #[cfg(test)]
 #[test]
@@ -105,14 +140,3 @@ fn test() {
     // let a = dom.rebuild();
     // println!("{:?}", a.templates);
 }
-
-// mod dioxus_elements {
-//     use dioxus::prelude::dioxus_elements::*;
-//
-//     pub struct my_element;
-//     impl my_element {
-//         pub const TAG_NAME: &'static str = "hogehoge";
-//         pub const NAME_SPACE: Option<&'static str> = None;
-//     }
-// }
-//

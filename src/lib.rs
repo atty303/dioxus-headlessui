@@ -1,2 +1,4 @@
-pub mod components;
-pub mod hooks;
+pub use components::*;
+
+mod components;
+pub(crate) mod hooks;

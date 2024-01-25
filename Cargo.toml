@@ -3,8 +3,6 @@ name = "dioxus-headlessui"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-dioxus = { path = "../../DioxusLabs/dioxus/packages/dioxus", features = ["html"] }
-
+dioxus = { git = "https://github.com/DioxusLabs/dioxus.git", rev = "458c13fb7424be424271b4ee0b6d7a7e5d95bd0b", features = ["web"] }
+web-sys = {  version = "0.3", features = ["HtmlDialogElement"] }
