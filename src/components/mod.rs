@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use dioxus::prelude::*;
 
-pub use dialog::*;
 mod dialog;
 
 pub struct RenderFn<T = ()> {

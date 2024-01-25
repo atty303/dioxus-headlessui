@@ -1,12 +1,9 @@
-use dioxus::prelude::*;
-
 use dioxus::dioxus_core::AttributeValue;
-
 use dioxus::prelude::*;
 use dioxus::web::WebEventExt;
 use web_sys::wasm_bindgen::JsCast;
-use crate::RenderFn;
 
+use crate::RenderFn;
 
 struct DialogState {
     open: Signal<bool>,
@@ -50,7 +47,7 @@ pub fn Dialog(
         }
     });
 
-    let mut attrs = vec![
+    let attrs = vec![
         Attribute::new(
             "onmounted",
             AttributeValue::listener(move |e: MountedEvent| {
@@ -95,9 +92,9 @@ pub struct DialogPanelRenderArgs {
 /// This indicates the panel of your actual Dialog. Clicking outside of this component will trigger the onClose of the Dialog component.
 #[component]
 pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: Element) -> Element {
-    let state = use_context::<Signal<DialogState>>();
+    let _state = use_context::<Signal<DialogState>>();
 
-    let mut attrs = Vec::new();
+    let attrs = Vec::new();
 
     if let Some(render) = render {
         render.call(DialogPanelRenderArgs { attrs, children })
