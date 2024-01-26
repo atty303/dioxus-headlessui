@@ -1,7 +1,7 @@
 use dioxus::dioxus_core::AttributeValue;
 use dioxus::prelude::*;
 use dioxus::web::WebEventExt;
-use web_sys::HtmlDialogElement;
+use web_sys::wasm_bindgen::prelude::Closure;
 use web_sys::wasm_bindgen::JsCast;
 
 use crate::components::RenderFn;
@@ -24,6 +24,7 @@ pub fn Dialog(
     open: bool,
     /// Called when the Dialog is dismissed (via outside click of the DialogPanel or by pressing the Escape key). Typically used to close the dialog by setting open to false.
     on_close: Option<EventHandler<()>>,
+    #[props(extends = GlobalAttributes)] attributes: Vec<Attribute>,
     render: Option<RenderFn<DialogRenderArgs>>,
     children: Element,
 ) -> Element {
@@ -32,7 +33,6 @@ pub fn Dialog(
         dialog: Signal::new(None),
     });
     let _ = use_context_provider(|| state);
-    let dialog = use_signal(|| None::<HtmlDialogElement>);
 
     use_effect(move || {
         if let Some(dialog) = state.read().dialog.read().as_ref() {
@@ -48,7 +48,60 @@ pub fn Dialog(
         }
     });
 
-    let attrs = vec![
+    let on_close2 = on_close.clone();
+    let func = Box::new(move |e: web_sys::KeyboardEvent| {
+        e.prevent_default();
+        if e.key() == "Escape" {
+            if let Some(dialog) = state.read().dialog.read().as_ref() {
+                dialog.close();
+            }
+            on_close2.as_ref().map(|f| f.call(()));
+        }
+    }) as Box<dyn FnMut(_)>;
+
+    let handler = Closure::wrap(func);
+
+    let r = use_signal(|| handler);
+    use_effect(move || {
+        web_sys::window()
+            .unwrap()
+            .document()
+            .unwrap()
+            .add_event_listener_with_callback("keydown", r.read().as_ref().unchecked_ref())
+            .unwrap();
+    });
+
+    use_drop(move || {
+        web_sys::window()
+            .unwrap()
+            .document()
+            .unwrap()
+            .remove_event_listener_with_callback("keydown", r.read().as_ref().unchecked_ref())
+            .unwrap();
+    });
+
+    let on_close1 = on_close.clone();
+    let mut attrs = vec![
+        Attribute::new(
+            "onclose",
+            AttributeValue::listener(move |_: Event<PlatformEventData>| {
+                on_close1.as_ref().map(|f| f.call(()));
+                panic!("onclose");
+            }),
+            None,
+            false,
+        ),
+        Attribute::new(
+            "onclick",
+            AttributeValue::listener({
+                move |event: Event<PlatformEventData>| {
+                    event.stop_propagation();
+                    on_close.as_ref().map(|f| f.call(()));
+                }
+            }),
+            None,
+            false,
+        ),
         Attribute::new(
             "onmounted",
             AttributeValue::listener(move |event: Event<PlatformEventData>| {
@@ -69,6 +122,8 @@ pub fn Dialog(
             false,
         ),
     ];
+    attrs.extend(attributes);
+    attrs.sort_by_key(|a| a.name);
 
     if let Some(render) = render {
         render.call(DialogRenderArgs {
@@ -93,17 +148,22 @@ pub struct DialogPanelRenderArgs {
 
 /// This indicates the panel of your actual Dialog. Clicking outside of this component will trigger the onClose of the Dialog component.
 #[component]
-pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: Element) -> Element {
+pub fn DialogPanel(
+    #[props(extends = GlobalAttributes)] attributes: Vec<Attribute>,
+    render: Option<RenderFn<DialogPanelRenderArgs>>,
+    children: Element,
+) -> Element {
     // let _state = use_context::<Signal<DialogState>>();
 
-    let attrs = Vec::new();
-
     if let Some(render) = render {
-        render.call(DialogPanelRenderArgs { attrs, children })
+        render.call(DialogPanelRenderArgs {
+            attrs: attributes,
+            children,
+        })
     } else {
         rsx! {
             div {
-                ..attrs,
+                ..attributes,
                 {children}
             }
         }
@@ -112,9 +172,9 @@ pub fn DialogPanel(render: Option<RenderFn<DialogPanelRenderArgs>>, children: El
 
 #[cfg(test)]
 mod test {
-    use dioxus::dioxus_core::NoOpMutations;
     use wasm_bindgen_test::wasm_bindgen_test;
     use web_sys::window;
+
     use super::*;
 
     wasm_bindgen_test::wasm_bindgen_test_configure!(run_in_browser);
