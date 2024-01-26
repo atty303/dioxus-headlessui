@@ -1,6 +1,7 @@
 use dioxus::dioxus_core::AttributeValue;
 use dioxus::prelude::*;
 use dioxus::web::WebEventExt;
+use web_sys::HtmlDialogElement;
 use web_sys::wasm_bindgen::JsCast;
 
 use crate::components::RenderFn;
@@ -26,41 +27,38 @@ pub fn Dialog(
     render: Option<RenderFn<DialogRenderArgs>>,
     children: Element,
 ) -> Element {
-    // let state = use_signal(|| DialogState {
-    //     open: Signal::new(open),
-    //     dialog: Signal::new(None),
-    // });
-    // let _ = use_context_provider(|| state);
-    // let dialog = use_signal(|| None);
+    let state = use_signal(|| DialogState {
+        open: Signal::new(open),
+        dialog: Signal::new(None),
+    });
+    let _ = use_context_provider(|| state);
+    let dialog = use_signal(|| None::<HtmlDialogElement>);
 
-    // use_effect(move || {
-    //     if let Some(dialog) = state.read().dialog.read().as_ref() {
-    //         if *state.read().open.read() {
-    //             if !dialog.has_attribute("open") {
-    //                 dialog.show_modal().unwrap();
-    //             }
-    //         } else {
-    //             if dialog.has_attribute("open") {
-    //                 dialog.close();
-    //             }
-    //         }
-    //     }
-    // });
+    use_effect(move || {
+        if let Some(dialog) = state.read().dialog.read().as_ref() {
+            if *state.read().open.read() {
+                if !dialog.has_attribute("open") {
+                    dialog.show_modal().unwrap();
+                }
+            } else {
+                if dialog.has_attribute("open") {
+                    dialog.close();
+                }
+            }
+        }
+    });
 
     let attrs = vec![
         Attribute::new(
             "onmounted",
-            AttributeValue::Listener(EventHandler::new(move |event: Event<dyn core::any::Any>| {
-                tracing::info!("data: hoge");
-                let data = event.data.downcast::<MountedData>().unwrap();
-            })),
-            // AttributeValue::listener::<MountedData>(move |e| {
-                // let el = e
-                //     .web_event()
-                //     .dyn_ref::<web_sys::HtmlDialogElement>()
-                //     .expect("expecting HtmlDialogElement");
-                // *state.read().dialog.write() = Some(el.clone());
-            // }),
+            AttributeValue::listener(move |event: Event<PlatformEventData>| {
+                let e: MountedEvent = event.map(|e| e.into());
+                let el = e
+                    .web_event()
+                    .dyn_ref::<web_sys::HtmlDialogElement>()
+                    .expect("expecting HtmlDialogElement");
+                *state.read().dialog.write() = Some(el.clone());
+            }),
             None,
             false,
         ),
@@ -80,7 +78,7 @@ pub fn Dialog(
         })
     } else {
         rsx! {
-            div {
+            dialog {
                 ..attrs,
                 {children}
             }
