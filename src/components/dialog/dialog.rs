@@ -80,17 +80,7 @@ pub fn Dialog(
             .unwrap();
     });
 
-    let on_close1 = on_close.clone();
     let mut attrs = vec![
-        Attribute::new(
-            "onclose",
-            AttributeValue::listener(move |_: Event<PlatformEventData>| {
-                on_close1.as_ref().map(|f| f.call(()));
-                panic!("onclose");
-            }),
-            None,
-            false,
-        ),
         Attribute::new(
             "onclick",
             AttributeValue::listener({
@@ -155,15 +145,25 @@ pub fn DialogPanel(
 ) -> Element {
     // let _state = use_context::<Signal<DialogState>>();
 
+    let mut attrs = vec![Attribute::new(
+        "onclick",
+        AttributeValue::listener({
+            move |event: Event<PlatformEventData>| {
+                event.stop_propagation();
+            }
+        }),
+        None,
+        false,
+    )];
+    attrs.extend(attributes);
+    attrs.sort_by_key(|a| a.name);
+
     if let Some(render) = render {
-        render.call(DialogPanelRenderArgs {
-            attrs: attributes,
-            children,
-        })
+        render.call(DialogPanelRenderArgs { attrs, children })
     } else {
         rsx! {
             div {
-                ..attributes,
+                ..attrs,
                 {children}
             }
         }
