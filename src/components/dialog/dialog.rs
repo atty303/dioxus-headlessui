@@ -100,7 +100,8 @@ pub fn Dialog(
                     .web_event()
                     .dyn_ref::<web_sys::HtmlDialogElement>()
                     .expect("expecting HtmlDialogElement");
-                *state.read().dialog.write() = Some(el.clone());
+                let mut dialog = state.read().dialog;
+                *dialog.write() = Some(el.clone());
             }),
             None,
             false,
