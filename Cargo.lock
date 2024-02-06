@@ -319,7 +319,7 @@ dependencies = [
 [[package]]
 name = "dioxus"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-config-macro",
  "dioxus-core",
@@ -336,7 +336,7 @@ dependencies = [
 [[package]]
 name = "dioxus-cli-config"
 version = "0.4.1"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "once_cell",
  "serde",
@@ -347,7 +347,7 @@ dependencies = [
 [[package]]
 name = "dioxus-config-macro"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -356,7 +356,7 @@ dependencies = [
 [[package]]
 name = "dioxus-core"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "futures-channel",
  "futures-util",
@@ -370,7 +370,7 @@ dependencies = [
 [[package]]
 name = "dioxus-core-macro"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "constcat",
  "convert_case",
@@ -390,7 +390,7 @@ checksum = "2ea539174bb236e0e7dc9c12b19b88eae3cb574dedbd0252a2d43ea7e6de13e2"
 [[package]]
 name = "dioxus-fullstack"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "async-trait",
  "base64",
@@ -422,7 +422,7 @@ dependencies = [
 [[package]]
 name = "dioxus-hooks"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-core",
  "dioxus-debug-cell",
@@ -437,7 +437,7 @@ dependencies = [
 [[package]]
 name = "dioxus-hot-reload"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-core",
  "dioxus-html",
@@ -450,7 +450,7 @@ dependencies = [
 [[package]]
 name = "dioxus-html"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "async-trait",
  "dioxus-core",
@@ -460,6 +460,10 @@ dependencies = [
  "futures-channel",
  "generational-box",
  "keyboard-types",
+ "serde",
+ "serde-value",
+ "serde_json",
+ "serde_repr",
  "wasm-bindgen",
  "web-sys",
 ]
@@ -467,7 +471,7 @@ dependencies = [
 [[package]]
 name = "dioxus-html-internal-macro"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "convert_case",
  "proc-macro2",
@@ -478,7 +482,7 @@ dependencies = [
 [[package]]
 name = "dioxus-interpreter-js"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "js-sys",
  "sledgehammer_bindgen",
@@ -490,7 +494,7 @@ dependencies = [
 [[package]]
 name = "dioxus-lib"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-core",
  "dioxus-core-macro",
@@ -503,7 +507,7 @@ dependencies = [
 [[package]]
 name = "dioxus-router"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-cli-config",
  "dioxus-lib",
@@ -521,7 +525,7 @@ dependencies = [
 [[package]]
 name = "dioxus-router-macro"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -532,7 +536,7 @@ dependencies = [
 [[package]]
 name = "dioxus-rsx"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -543,7 +547,7 @@ dependencies = [
 [[package]]
 name = "dioxus-signals"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "dioxus-core",
  "flume",
@@ -559,8 +563,10 @@ dependencies = [
 [[package]]
 name = "dioxus-web"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
+ "async-trait",
+ "console_error_panic_hook",
  "dioxus-core",
  "dioxus-html",
  "dioxus-interpreter-js",
@@ -570,6 +576,7 @@ dependencies = [
  "js-sys",
  "rustc-hash",
  "serde",
+ "serde-wasm-bindgen",
  "serde_json",
  "tracing",
  "wasm-bindgen",
@@ -580,7 +587,7 @@ dependencies = [
 [[package]]
 name = "dioxus_server_macro"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "convert_case",
  "proc-macro2",
@@ -632,6 +639,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "87f253bc5c813ca05792837a0ff4b3a580336b224512d48f7eda1d7dd9210787"
 dependencies = [
  "num-traits",
+ "serde",
 ]
 
 [[package]]
@@ -751,7 +759,7 @@ dependencies = [
 [[package]]
 name = "generational-box"
 version = "0.4.3"
-source = "git+https://github.com/DioxusLabs/dioxus.git?rev=7d78e5e2500f9c34258045dd633954d72b7ee161#7d78e5e2500f9c34258045dd633954d72b7ee161"
+source = "git+https://github.com/DioxusLabs/dioxus.git?rev=902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc#902d6e2fd7b3192f2cf8b28438ab0df4bd590ddc"
 dependencies = [
  "parking_lot",
 ]
@@ -1254,6 +1262,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
 
 [[package]]
+name = "ordered-float"
+version = "2.10.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "68f19d67e5a2795c94e73e0bb1cc1a7edeb2e28efd39e2e1c9b7a40c1108b11c"
+dependencies = [
+ "num-traits",
+]
+
+[[package]]
 name = "parking"
 version = "2.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1470,6 +1487,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "serde-value"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f3a1a3341211875ef120e117ea7fd5228530ae7e7036a779fdc9117be6b3282c"
+dependencies = [
+ "ordered-float",
+ "serde",
+]
+
+[[package]]
 name = "serde-wasm-bindgen"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1511,6 +1538,17 @@ dependencies = [
  "percent-encoding",
  "serde",
  "thiserror",
+]
+
+[[package]]
+name = "serde_repr"
+version = "0.1.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b2e6b945e9d3df726b65d6ee24060aff8e3533d431f677a9695db04eff9dfdb"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
